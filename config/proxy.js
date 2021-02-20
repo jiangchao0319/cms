@@ -14,6 +14,13 @@ export default {
         '^': '',
       },
     },
+    '/cms/': {
+      target: 'http://10.45.67.177:18080/cms-admin/',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/cms': '',
+      },
+    },
   },
   test: {
     '/api/': {

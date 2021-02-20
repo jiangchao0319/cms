@@ -8,7 +8,7 @@ import {
   WeiboCircleOutlined,
 } from '@ant-design/icons';
 import { Alert, Space, message, Tabs } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
 import { useIntl, connect, FormattedMessage } from 'umi';
 import { getFakeCaptcha } from '@/services/login';
@@ -31,7 +31,16 @@ const Login = (props) => {
   const [type, setType] = useState('account');
   const intl = useIntl();
 
+  useEffect(() => {
+    console.log('componentDidMount')
+    const { dispatch } = props;
+    dispatch({
+      type: 'login/isLogin',
+    });
+  }, [])
+
   const handleSubmit = (values) => {
+    console.log(values)
     const { dispatch } = props;
     dispatch({
       type: 'login/login',
@@ -236,12 +245,6 @@ const Login = (props) => {
           </a>
         </div>
       </ProForm>
-      <Space className={styles.other}>
-        <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式" />
-        <AlipayCircleOutlined className={styles.icon} />
-        <TaobaoCircleOutlined className={styles.icon} />
-        <WeiboCircleOutlined className={styles.icon} />
-      </Space>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { stringify } from 'querystring';
 import { history } from 'umi';
-import { fakeAccountLogin } from '@/services/login';
+import { fakeAccountLogin, isLogin } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { message } from 'antd';
@@ -11,6 +11,18 @@ const Model = {
     status: undefined,
   },
   effects: {
+    // 查询用户是否登录
+    *isLogin({ }, { call, put }) {
+      const response = yield call(isLogin);
+      console.log(response)
+      // 已经登录
+      if(response._csrf){
+        // 跳转进系统
+        history.replace('/welcome' || '/');
+      }
+    },
+
+    // 登录
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
       yield put({
@@ -21,6 +33,7 @@ const Model = {
       if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
+        console.log(params)
         message.success('🎉 🎉 🎉  登录成功！');
         let { redirect } = params;
 
