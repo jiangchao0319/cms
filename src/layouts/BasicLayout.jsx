@@ -36,32 +36,6 @@ const menuDataRender = (menuList) =>
     return Authorized.check(item.authority, localItem, null);
   });
 
-const defaultFooterDom = (
-  <DefaultFooter
-    copyright={`${new Date().getFullYear()} 蚂蚁集团体验技术部出品`}
-    links={[
-      {
-        key: 'Ant Design Pro',
-        title: 'Ant Design Pro',
-        href: 'https://pro.ant.design',
-        blankTarget: true,
-      },
-      {
-        key: 'github',
-        title: <GithubOutlined />,
-        href: 'https://github.com/ant-design/ant-design-pro',
-        blankTarget: true,
-      },
-      {
-        key: 'Ant Design',
-        title: 'Ant Design',
-        href: 'https://ant.design',
-        blankTarget: true,
-      },
-    ]}
-  />
-);
-
 const BasicLayout = (props) => {
   const {
     dispatch,
@@ -73,13 +47,13 @@ const BasicLayout = (props) => {
   } = props;
   const menuDataRef = useRef([]);
   useEffect(() => {
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
-    }
+    // 查询用户信息
+    // if (dispatch) {
+    //   dispatch({
+    //     type: 'user/fetchCurrent',
+    //   });
+    // }
   }, []);
-  /** Init variables */
 
   const handleMenuCollapse = (payload) => {
     if (dispatch) {
@@ -134,13 +108,6 @@ const BasicLayout = (props) => {
           <span>{route.breadcrumbName}</span>
         );
       }}
-      // footerRender={() => {
-      //   if (settings.footerRender || settings.footerRender === undefined) {
-      //     return defaultFooterDom;
-      //   }
-
-      //   return null;
-      // }}
       menuDataRender={menuDataRender}
       rightContentRender={() => <RightContent />}
       postMenuData={(menuData) => {

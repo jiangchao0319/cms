@@ -5,6 +5,8 @@ import { history, connect } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 
+const averIcon = require("@/assets/avater.png");
+
 class AvatarDropdown extends React.Component {
   onMenuClick = (event) => {
     const { key } = event;
@@ -28,7 +30,7 @@ class AvatarDropdown extends React.Component {
     const {
       currentUser = {
         avatar: '',
-        name: '',
+        userName: '',
       },
       menu,
     } = this.props;
@@ -54,11 +56,12 @@ class AvatarDropdown extends React.Component {
         </Menu.Item>
       </Menu>
     );
-    return currentUser && currentUser.name ? (
+    console.log('f:', currentUser)
+    return currentUser && currentUser.userName ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
-          <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-          <span className={`${styles.name} anticon`}>{currentUser.name}</span>
+          <Avatar size="small" className={styles.avatar} src={averIcon} alt="avatar" />
+          <span className={`${styles.name} anticon`}>{currentUser.userName}</span>
         </span>
       </HeaderDropdown>
     ) : (
@@ -75,6 +78,6 @@ class AvatarDropdown extends React.Component {
   }
 }
 
-export default connect(({ user }) => ({
-  currentUser: user.currentUser,
+export default connect(({ login }) => ({
+  currentUser: login.currentUser,
 }))(AvatarDropdown);

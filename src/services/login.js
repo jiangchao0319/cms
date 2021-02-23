@@ -1,16 +1,25 @@
 import request from '@/utils/request';
+import { stringify } from 'qs';
 
 // 查询用户是否登录
 export async function isLogin() {
-  return request('/cms/logged');
+  return request('/cmsAdmin/logged');
 }
 
-export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
+// 登录接口
+export async function login(params) {
+  return request('/cmsAdmin/login', {
     method: 'POST',
-    data: params,
+    body: stringify(params),
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
   });
 }
+
+// 退出账号
+export async function logout() {
+  return request('/cmsAdmin/local');
+}
+
 export async function getFakeCaptcha(mobile) {
   return request(`/api/login/captcha?mobile=${mobile}`);
 }
