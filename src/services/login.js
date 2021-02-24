@@ -17,9 +17,5 @@ export async function login(params) {
 
 // 退出账号
 export async function logout() {
-  return request('/cmsAdmin/local');
-}
-
-export async function getFakeCaptcha(mobile) {
-  return request(`/api/login/captcha?mobile=${mobile}`);
+  return request('/cmsAdmin/logout');
 }

@@ -25,11 +25,18 @@ export default [
             routes: [
               {
                 path: '/',
-                redirect: '/welcome',
+                redirect: '/SiteManage',
+              },
+              {
+                path: '/sitemanage',
+                name: '站点管理',
+                icon: 'SolutionOutlined',
+                component: './SiteManage',
               },
               {
                 path: '/welcome',
                 name: 'welcome',
+                hideInMenu: 'true',
                 icon: 'smile',
                 component: './Welcome',
               },

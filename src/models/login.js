@@ -15,6 +15,7 @@ const Model = {
     // 查询用户是否登录
     *isLogin({ }, { call, put }) {
       const response = yield call(isLogin);
+      localStorage.setItem('currentUser', JSON.stringify(response));
       yield put({
         type: 'saveCurrentUser',
         payload: response,
@@ -22,15 +23,17 @@ const Model = {
       // 已经登录
       if(response._csrf){
         // 跳转进系统
-        history.replace('/welcome' || '/');
+        history.replace('/sitemanage' || '/');
       }
     },
 
     // 登录
     *login({ payload }, { call, put }) {
-      console.log(payload)
-      const response = yield call(login, payload);
-      console.log(response)
+      const { isSuccess } = yield call(login, payload);
+      // 登录成功
+      if(isSuccess == 1){
+        history.replace('/sitemanage');
+      }
     },
 
 
