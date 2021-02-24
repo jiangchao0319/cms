@@ -9,7 +9,7 @@ const Model = {
   },
   effects: {
     // 查询站点列表
-    *listSiteTreeIsShowAll({ payload }, { call, put }) {
+    *listSiteTreeIsShowAll({ payload, callback }, { call, put }) {
       const { code, datas } = yield call(listSiteTreeIsShowAll, payload);
       if(code == 1){
         yield put({
@@ -18,6 +18,7 @@ const Model = {
                 siteTreeList: datas
             },
         });
+        callback(datas);
       }
     },
     // 禁用站点

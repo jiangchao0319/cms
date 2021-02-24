@@ -6,13 +6,15 @@ import {
     DownloadOutlined,
     EyeOutlined,
     KeyOutlined,
-  } from '@ant-design/icons';
+} from '@ant-design/icons';
+import styles from '../index.less';
 
 const FormItem = Form.Item;
 
 const SiteList = (props) => {
     const { siteTreeList } = props;
-    
+    const [rowId, setRowId] = useState('');
+
     // 禁用接口
     const disableConfirm = (record, siteState) => {
         const { dispatch } = props;
@@ -24,6 +26,11 @@ const SiteList = (props) => {
             siteType: 0,
           }
         });
+    }
+
+    // table点击行改变背景
+    const setRowClassName = (record) => {
+        return record.id == rowId ? 'clickRowStyl' : '';
     }
 
     const downloadSite = (record) => {
@@ -94,6 +101,11 @@ const SiteList = (props) => {
           payload: {
             siteName: '',
             isAllShow: false,
+          },
+          callback: (data) => {
+            if(data.length > 0){
+                setRowId(data[0].id)
+            }
           }
         });
     }, [])
@@ -111,65 +123,69 @@ const SiteList = (props) => {
 
     const renderForm = () => {
         return (
-            <Form
-                initialValues={{
-                    siteName: '',
-                    isAllShow: false,
-                }}
-                onFinish={onFinish}
-                >
-                <Row>
-                    <Col span={12}>
-                        <FormItem
-                            label="网站名称"
-                            name="siteName"
-                        >
-                            <Input />
-                        </FormItem>
-                    </Col>
-                    <Col span={11} offset={1}>
-                        <Button type="primary" htmlType="submit">
-                            查询
-                        </Button>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={12}>
-                        <FormItem
-                            label="显示禁用"
-                            name="isAllShow"
-                            valuePropName="checked"
-                        >
-                            <Checkbox />
-                        </FormItem>
-                    </Col>
-                </Row>
-            </Form>
+            <div className={styles.searchStyle}>
+                <Form
+                    initialValues={{
+                        siteName: '',
+                        isAllShow: false,
+                    }}
+                    onFinish={onFinish}
+                    >
+                    <Row>
+                        <Col span={12}>
+                            <FormItem
+                                label="网站名称"
+                                name="siteName"
+                            >
+                                <Input />
+                            </FormItem>
+                        </Col>
+                        <Col span={11} offset={1}>
+                            <Button type="primary" htmlType="submit">
+                                查询
+                            </Button>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={12}>
+                            <FormItem
+                                label="显示禁用"
+                                name="isAllShow"
+                                valuePropName="checked"
+                            >
+                                <Checkbox />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                </Form>
+            </div>
         )
     }
-    
     return(
         <div>
             {renderForm()}
-            <Table
-                rowKey="id"
-                size="small"
-                onRow={record => {
-                    return {
-                        onClick: event => {
-                            console.log(event)
-                        }, // 点击行
-                        onDoubleClick: event => {},
-                        onContextMenu: event => {},
-                        onMouseEnter: event => {}, // 鼠标移入行
-                        onMouseLeave: event => {},
-                    };
-                }}
-                pagination={false}
-                bordered={true}
-                columns={columns}
-                dataSource={siteTreeList}
-            />
+            <div className={styles.siteContent}>
+                <Table
+                    rowKey="id"
+                    size="small"
+                    onRow={record => {
+                        return {
+                            onClick: event => {
+                                setRowId(record.id)
+                            }, // 点击行
+                            onDoubleClick: event => {},
+                            onContextMenu: event => {},
+                            onMouseEnter: event => {}, // 鼠标移入行
+                            onMouseLeave: event => {},
+                        };
+                    }}
+                    rowClassName={setRowClassName}
+                    pagination={false}
+                    bordered={true}
+                    columns={columns}
+                    dataSource={siteTreeList}
+                />
+            </div>
         </div>
     )
 }
