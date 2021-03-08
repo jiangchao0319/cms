@@ -12,7 +12,7 @@ import styles from '../index.less';
 const FormItem = Form.Item;
 
 const SiteList = (props) => {
-    const { siteTreeList } = props;
+    const { siteTreeList, siteTableClick } = props;
     const [rowId, setRowId] = useState('');
 
     // 禁用接口
@@ -105,6 +105,7 @@ const SiteList = (props) => {
           callback: (data) => {
             if(data.length > 0){
                 setRowId(data[0].id)
+                siteTableClick(data[0].id)
             }
           }
         });
@@ -117,6 +118,9 @@ const SiteList = (props) => {
           payload: {
             siteName: values.siteName,
             isAllShow: values.isAllShow,
+          },
+          callback: () => {
+
           }
         });
     };
@@ -172,6 +176,7 @@ const SiteList = (props) => {
                         return {
                             onClick: event => {
                                 setRowId(record.id)
+                                siteTableClick(record.id)
                             }, // 点击行
                             onDoubleClick: event => {},
                             onContextMenu: event => {},
